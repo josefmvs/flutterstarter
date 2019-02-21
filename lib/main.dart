@@ -9,9 +9,9 @@ import './screens/support.dart' as _supportPage;
 void main() => runApp(new MaterialApp(
   title: 'Flutter Starter',
   theme: new ThemeData(
-    primarySwatch: Colors.blueGrey,
+    primarySwatch: Colors.cyan,
     scaffoldBackgroundColor: Colors.white,
-    primaryColor: Colors.blueGrey, backgroundColor: Colors.white
+    primaryColor: Colors.cyan, backgroundColor: Colors.red
   ),
   home: new Tabs(),
   onGenerateRoute: (RouteSettings settings) {
@@ -215,6 +215,7 @@ class TabsState extends State<Tabs> {
       case 2:
         this._title_app = TabItems[2].title;
       break;
+
     }
   }
 }
