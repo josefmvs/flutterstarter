@@ -11,6 +11,7 @@ class Settings extends StatelessWidget {
           Icons.settings,
           size: 150.0,
           color: Colors.black12
+
         ),
         new Text('Settings tab content')
       ],
