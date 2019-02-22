@@ -9,7 +9,7 @@ import './screens/support.dart' as _supportPage;
 void main() => runApp(new MaterialApp(
   title: 'Flutter Starter',
   theme: new ThemeData(
-    primarySwatch: Colors.cyan,
+    primarySwatch: Colors.blue,
     scaffoldBackgroundColor: Colors.white,
     primaryColor: Colors.cyan, backgroundColor: Colors.red
   ),
