@@ -4,7 +4,7 @@ description: A new Flutter project.
 dependencies:
   flutter:
     sdk: flutter
-
+  cloud_firestore: ^0.9.5+2
   english_words: ^3.1.0   # add this line
 
 dev_dependencies:
