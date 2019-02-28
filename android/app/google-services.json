@@ -8,6 +8,68 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1098572196291:android:fca9bd1895f18712",
+        "android_client_info": {
+          "package_name": "com.example.firebaseshowcase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1098572196291-jie58si2gt85rkav8o89c8456k3qtvvh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUnNV_C7fSpovTr57ZTj7Bp-tQ5Bc4X-E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098572196291:android:57f9838b2de5f2cc",
+        "android_client_info": {
+          "package_name": "com.example.firestorecrud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1098572196291-jie58si2gt85rkav8o89c8456k3qtvvh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUnNV_C7fSpovTr57ZTj7Bp-tQ5Bc4X-E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1098572196291:android:e03142b8c59656ff",
         "android_client_info": {
           "package_name": "com.tropeo.tropoeapp"
@@ -55,37 +117,6 @@
         "mobilesdk_app_id": "1:1098572196291:android:af11bdb8b68c1025",
         "android_client_info": {
           "package_name": "com.yourcompany.flutterstarter"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1098572196291-jie58si2gt85rkav8o89c8456k3qtvvh.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCUnNV_C7fSpovTr57ZTj7Bp-tQ5Bc4X-E"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1098572196291:android:e419ce3c1b439660",
-        "android_client_info": {
-          "package_name": "org.nativescript.tropeo"
         }
       },
       "oauth_client": [
