@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_starter/bloc_provider.dart';
+import 'package:flutter_starter/screens/support_bloc.dart';
 import './tabs/home.dart' as _firstTab;
 import './tabs/dashboard.dart' as _secondTab;
 import './tabs/settings.dart' as _thirdTab;
 import './screens/about.dart' as _aboutPage;
 import './screens/support.dart' as _supportPage;
 
-void main() => runApp(new MaterialApp(
+void main() => runApp(
+    BlocProvider(
+  bloc: SupportBloc(),
+  child:
+  new MaterialApp(
+  debugShowCheckedModeBanner: false,
   title: 'Flutter Starter',
   theme: new ThemeData(
     primarySwatch: Colors.blue,
     scaffoldBackgroundColor: Colors.white,
     primaryColor: Colors.cyan, backgroundColor: Colors.red
   ),
-  home: new Tabs(),
+   home: new Tabs(),
   onGenerateRoute: (RouteSettings settings) {
     switch (settings.name) {
       case '/about': return new FromRightToLeft(
@@ -27,6 +33,7 @@ void main() => runApp(new MaterialApp(
       );
     }
   },
+  )
   // routes: <String, WidgetBuilder> {
   //   '/about': (BuildContext context) => new _aboutPage.About(),
   // }

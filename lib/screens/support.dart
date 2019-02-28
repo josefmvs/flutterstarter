@@ -1,36 +1,8 @@
-import 'dart:math';
+import 'package:flutter_starter/bloc_provider.dart';
+import 'package:flutter_starter/screens/support_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-//class Support extends StatelessWidget {
-//  @override
-//  Widget build (BuildContext context) => new Scaffold(
-//
-//    //App Bar
-//    appBar: new AppBar(
-//      title: new Text(
-//        'Support',
-//        style: new TextStyle(
-//          fontSize: Theme.of(context).platform == TargetPlatform.iOS ? 17.0 : 20.0,
-//        ),
-//      ),
-//      elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
-//    ),
-//
-//    //Content of tabs
-//    body: new PageView(
-//      children: <Widget>[
-//        new Column(
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            new Text('Support page content'),
-//          ],
-//        )
-//      ],
-//    ),
-//  );
-//}
 class Support extends StatefulWidget {
   @override
   SupportState createState() {
@@ -39,12 +11,10 @@ class Support extends StatefulWidget {
 }
 
 class SupportState extends State<Support> {
-  String id;
-  final db = Firestore.instance;
-  final _formKey = GlobalKey<FormState>();
   String name;
+  final _formKey = GlobalKey<FormState>();
 
-  Card buildItem(DocumentSnapshot doc) {
+  Card buildItem(DocumentSnapshot doc, SupportBloc bloc) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -64,13 +34,13 @@ class SupportState extends State<Support> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 FlatButton(
-                  onPressed: () => updateData(doc),
+                  onPressed: () => bloc.updateData(doc),
                   child: Text('Update todo', style: TextStyle(color: Colors.white)),
                   color: Colors.green,
                 ),
                 SizedBox(width: 8),
                 FlatButton(
-                  onPressed: () => deleteData(doc),
+                  onPressed: () => bloc.deleteData(doc),
                   child: Text('Delete'),
                 ),
               ],
@@ -100,6 +70,7 @@ class SupportState extends State<Support> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<SupportBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Firestore CRUD'),
@@ -115,22 +86,28 @@ class SupportState extends State<Support> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               RaisedButton(
-                onPressed: createData,
+                onPressed: () => validateAndCreateData(bloc),
                 child: Text('Create', style: TextStyle(color: Colors.white)),
                 color: Colors.green,
               ),
-              RaisedButton(
-                onPressed: id != null ? readData : null,
-                child: Text('Read', style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
+              StreamBuilder<String>(
+                stream: bloc.outId,
+                initialData: null,
+                builder: (context, snapshot) {
+                  return RaisedButton(
+                    onPressed: snapshot.data != null ? bloc.readData : null,
+                    child: Text('Read', style: TextStyle(color: Colors.white)),
+                    color: Colors.blue,
+                  );
+                },
               ),
             ],
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: db.collection('CRUD').snapshots(),
+            stream: bloc.outFirestore,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Column(children: snapshot.data.documents.map((doc) => buildItem(doc)).toList());
+                return Column(children: snapshot.data.documents.map((doc) => buildItem(doc, bloc)).toList());
               } else {
                 return SizedBox();
               }
@@ -141,46 +118,10 @@ class SupportState extends State<Support> {
     );
   }
 
-  void createData() async {
+  void validateAndCreateData(SupportBloc bloc) async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      DocumentReference ref = await db.collection('CRUD').add({'name': '$name 😎', 'todo': randomTodo()});
-      setState(() => id = ref.documentID);
-      print(ref.documentID);
+      bloc.createData(name);
     }
-  }
-
-  void readData() async {
-    DocumentSnapshot snapshot = await db.collection('CRUD').document(id).get();
-    print(snapshot.data['name']);
-  }
-
-  void updateData(DocumentSnapshot doc) async {
-    await db.collection('CRUD').document(doc.documentID).updateData({'todo': 'please 🤫'});
-  }
-
-  void deleteData(DocumentSnapshot doc) async {
-    await db.collection('CRUD').document(doc.documentID).delete();
-    setState(() => id = null);
-  }
-
-  String randomTodo() {
-    final randomNumber = Random().nextInt(4);
-    String todo;
-    switch (randomNumber) {
-      case 1:
-        todo = 'Like and subscribe 💩';
-        break;
-      case 2:
-        todo = 'Twitter @robertbrunhage 🤣';
-        break;
-      case 3:
-        todo = 'Patreon in the description 🤗';
-        break;
-      default:
-        todo = 'Leave a comment 🤓';
-        break;
-    }
-    return todo;
   }
 }
