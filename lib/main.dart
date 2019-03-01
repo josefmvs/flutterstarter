@@ -9,9 +9,9 @@ import './screens/about.dart' as _aboutPage;
 import './screens/support.dart' as _supportPage;
 
 void main() => runApp(
-    BlocProvider(
-  bloc: SupportBloc(),
-  child:
+//    BlocProvider(
+//  bloc: SupportBloc(),
+//  child:
   new MaterialApp(
   debugShowCheckedModeBanner: false,
   title: 'Flutter Starter',
@@ -28,7 +28,11 @@ void main() => runApp(
         settings: settings,
       );
       case '/support': return new FromRightToLeft(
-        builder: (_) => new _supportPage.Support(),
+        builder: (_) =>
+          BlocProvider(
+            bloc: SupportBloc(),
+            child: new _supportPage.Support()
+          ),
         settings: settings,
       );
     }
@@ -37,7 +41,8 @@ void main() => runApp(
   // routes: <String, WidgetBuilder> {
   //   '/about': (BuildContext context) => new _aboutPage.About(),
   // }
-));
+//)
+);
 
 class FromRightToLeft<T> extends MaterialPageRoute<T> {
   FromRightToLeft({ WidgetBuilder builder, RouteSettings settings })
