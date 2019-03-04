@@ -143,20 +143,6 @@ class TabsState extends State<Tabs> {
       ),
       elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
     ),
-//    floatingActionButton: new FloatingActionButton(
-//        child:
-//    ),
-    //Content of tabs
-//    body: new PageView(
-//      controller: _tabController,
-//      onPageChanged: onTabChanged,
-//      children: <Widget>[
-//        new _firstTab.Dashboard(),
-//        new _secondTab.Settings(),
-//        new _thirdTab.Home(),
-//        new _fourthTab.Contacts()
-//      ],
-//    ),
       body: new Stack(
         children: <Widget>[
           new PageView(
