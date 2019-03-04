@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_starter/bloc_provider.dart';
 import 'package:flutter_starter/screens/support_bloc.dart';
-import './tabs/home.dart' as _firstTab;
-import './tabs/dashboard.dart' as _secondTab;
-import './tabs/settings.dart' as _thirdTab;
+import 'package:flutter_starter/widgets/animated_fab.dart';
+import './tabs/dashboard.dart' as _firstTab;
+import './tabs/settings.dart' as _secondTab;
+import './tabs/home.dart' as _thirdTab;
+import './tabs/contacts.dart' as _fourthTab;
 import './screens/about.dart' as _aboutPage;
 import './screens/support.dart' as _supportPage;
 
@@ -16,9 +18,9 @@ void main() => runApp(
   debugShowCheckedModeBanner: false,
   title: 'Flutter Starter',
   theme: new ThemeData(
-    primarySwatch: Colors.blue,
+    primarySwatch: Colors.green,
     scaffoldBackgroundColor: Colors.white,
-    primaryColor: Colors.cyan, backgroundColor: Colors.red
+    primaryColor: Colors.green, backgroundColor: Colors.red
   ),
    home: new Tabs(),
   onGenerateRoute: (RouteSettings settings) {
@@ -91,7 +93,7 @@ class Tabs extends StatefulWidget {
 }
 
 class TabsState extends State<Tabs> {
-  
+  final double _imageHeight = 256.0;
   PageController _tabController;
 
   var _title_app = null;
@@ -110,6 +112,24 @@ class TabsState extends State<Tabs> {
     _tabController.dispose();
   }
 
+//  Widget _buildFab() {
+//    return new Positioned(
+//        //top: 30,
+//        right: -40.0,
+//        bottom: -20.0,
+//        child:
+//          //onClick: _changeFilterState,
+//        ));
+//  }
+
+  Widget _buildFab() {
+    return new Positioned(
+      bottom: 0.0,
+      right:  -50.0,
+      child: new AnimatedFab()
+    );
+  }
+
   @override
   Widget build (BuildContext context) => new Scaffold(
 
@@ -123,17 +143,36 @@ class TabsState extends State<Tabs> {
       ),
       elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
     ),
-
+//    floatingActionButton: new FloatingActionButton(
+//        child:
+//    ),
     //Content of tabs
-    body: new PageView(
-      controller: _tabController,
-      onPageChanged: onTabChanged,
-      children: <Widget>[
-        new _firstTab.Home(),
-        new _secondTab.Dashboard(),
-        new _thirdTab.Settings()
-      ],
-    ),
+//    body: new PageView(
+//      controller: _tabController,
+//      onPageChanged: onTabChanged,
+//      children: <Widget>[
+//        new _firstTab.Dashboard(),
+//        new _secondTab.Settings(),
+//        new _thirdTab.Home(),
+//        new _fourthTab.Contacts()
+//      ],
+//    ),
+      body: new Stack(
+        children: <Widget>[
+          new PageView(
+            controller: _tabController,
+            onPageChanged: onTabChanged,
+            children: <Widget>[
+              new _firstTab.Dashboard(),
+              new _secondTab.Settings(),
+              new _thirdTab.Home(),
+              new _fourthTab.Contacts()
+            ],
+          ),
+          _buildFab(),
+        ],
+      ),
+
 
     //Tabs
     bottomNavigationBar: Theme.of(context).platform == TargetPlatform.iOS ?
@@ -144,21 +183,22 @@ class TabsState extends State<Tabs> {
         items: TabItems.map((TabItem) {
           return new BottomNavigationBarItem(
             title: new Text(TabItem.title),
-            icon: new Icon(TabItem.icon),
+            icon:   new Icon(TabItem.icon, size: 15),
           );
         }).toList(),
       ):
       new BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _tab,
         onTap: onTap,
         items: TabItems.map((TabItem) {
           return new BottomNavigationBarItem(
-            title: new Text(TabItem.title),
-            icon: new Icon(TabItem.icon),
+          title: new Text(TabItem.title),
+          icon:   new Icon(TabItem.icon, size: 20),
           );
         }).toList(),
     ),
-
+   // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     //Drawer
     drawer: new Drawer(
       child: new ListView(
@@ -229,6 +269,11 @@ class TabsState extends State<Tabs> {
         this._title_app = TabItems[2].title;
       break;
 
+      case 3:
+        this._title_app = TabItems[3].title;
+        break;
+
+
     }
   }
 }
@@ -240,7 +285,9 @@ class TabItem {
 }
 
 const List<TabItem> TabItems = const <TabItem>[
-  const TabItem(title: 'Home', icon: Icons.home),
+
   const TabItem(title: 'Dashboard', icon: Icons.dashboard),
-  const TabItem(title: 'Settings', icon: Icons.settings)
+  const TabItem(title: 'Activities', icon: Icons.timeline),
+  const TabItem(title: 'Insights', icon: Icons.wb_incandescent),
+  const TabItem(title: 'Contacts', icon: Icons.group)
 ];
