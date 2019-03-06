@@ -81,31 +81,55 @@ class ContactsState extends State<Contacts> {
             //style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-          subtitle: Row(
+          subtitle:
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Expanded(
-                  flex: 2,
-                  child: Text("Advanced")),
-              Expanded(
-                flex: 2,
-                child: Text(lesson.level),
-              )
+
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text('Deliver features faster', textAlign: TextAlign.center),
+                  ),
+                  Expanded(
+                    child: Text('Craft beautiful UIs', textAlign: TextAlign.center),
+                  ),
+//                  Expanded(
+//                    child: FittedBox(
+//                      fit: BoxFit.contain, // otherwise the logo will be tiny
+//                      child: const FlutterLogo(),
+//                    ),
+//                  ),
+                ],
+              ),
+              Text('Through the night, we have one shot to live another day'),
+              Text('We cannot let a stray gunshot give us away'),
             ],
           ),
+
+//          Row(
+//            children: <Widget>[
+//              Expanded(
+//                child: Text('Deliver features faster', textAlign: TextAlign.center),
+//              ),
+//              Expanded(
+//                child: Text('Craft beautiful UIs', textAlign: TextAlign.center),
+//              ),
+//              Expanded(
+//                child: FittedBox(
+//                  fit: BoxFit.contain, // otherwise the logo will be tiny
+//                  child: const FlutterLogo(),
+//                ),
+//              ),
+//            ],
+//          ),
         );
-
-//    Card makeCard(Lesson lesson) =>
-//        Card(
-////          elevation: 8.0,
-//          return makeCard(lessons[index]);
-//        },
-//      ),
-//    );
-
 
     final makeBody = Container(
       // decoration: BoxDecoration(color: Color.fromRGBO(58, 66, 86, 1.0)),
-      child: ListView.builder(
+      child: ListView.separated(
+        separatorBuilder: (BuildContext context, int index) => new Divider(),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         itemCount: lessons.length,
