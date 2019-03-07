@@ -20,7 +20,7 @@ void main() => runApp(
   theme: new ThemeData(
     primarySwatch: Colors.green,
     scaffoldBackgroundColor: Colors.white,
-    primaryColor: Colors.green, backgroundColor: Colors.red
+    primaryColor: Color.fromARGB(255, 40, 199, 143), backgroundColor: Colors.red
   ),
    home: new Tabs(),
   onGenerateRoute: (RouteSettings settings) {
@@ -112,16 +112,6 @@ class TabsState extends State<Tabs> {
     _tabController.dispose();
   }
 
-//  Widget _buildFab() {
-//    return new Positioned(
-//        //top: 30,
-//        right: -40.0,
-//        bottom: -20.0,
-//        child:
-//          //onClick: _changeFilterState,
-//        ));
-//  }
-
   Widget _buildFab() {
     return new Positioned(
       bottom: 0.0,
@@ -132,16 +122,17 @@ class TabsState extends State<Tabs> {
 
   @override
   Widget build (BuildContext context) => new Scaffold(
-
     //App Bar
     appBar: new AppBar(
       title: new Text(
         _title_app, 
         style: new TextStyle(
+          color: Colors.white,
           fontSize: Theme.of(context).platform == TargetPlatform.iOS ? 17.0 : 20.0,
         ),
       ),
       elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
+      iconTheme: new IconThemeData(color: Colors.white),
     ),
       body: new Stack(
         children: <Widget>[
@@ -173,17 +164,29 @@ class TabsState extends State<Tabs> {
           );
         }).toList(),
       ):
-      new BottomNavigationBar(
+    new Theme(
+      data: Theme.of(context).copyWith(
+        // sets the background color of the `BottomNavigationBar`
+          canvasColor: Color.fromARGB(255, 40, 199, 143),
+          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+          primaryColor: Colors.yellow[600],// Color.fromARGB(200, 254, 183, 0),
+          textTheme: Theme
+              .of(context)
+              .textTheme
+              .copyWith(caption: new TextStyle(color: Colors.white))), // sets the inactive color of the `BottomNavigationBar`
+      child: new BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _tab,
         onTap: onTap,
         items: TabItems.map((TabItem) {
           return new BottomNavigationBarItem(
-          title: new Text(TabItem.title),
-          icon:   new Icon(TabItem.icon, size: 20),
+            title: new Text(TabItem.title),
+            icon:   new Icon(TabItem.icon, size: 20),
           );
         }).toList(),
+      ),
     ),
+
    // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     //Drawer
     drawer: new Drawer(

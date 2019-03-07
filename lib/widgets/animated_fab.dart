@@ -97,7 +97,7 @@ class _AnimatedFabState extends State<AnimatedFab>
     return new Container(
       height: size,
       width: size,
-      decoration: new BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+      decoration: new BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 40, 199, 143)),
     );
   }
 
@@ -115,7 +115,7 @@ class _AnimatedFabState extends State<AnimatedFab>
         ),
       ),
       //backgroundColor: _colorAnimation.value,
-     backgroundColor: Colors.yellow[700],
+     backgroundColor: Colors.yellow[600],
     );
   }
 
