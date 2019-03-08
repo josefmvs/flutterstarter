@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../screens/about.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -73,7 +73,14 @@ class HomeState extends State<Home> {
                         return RaisedButton(
                           // If onPressed is null, the button is disabled
                           // this is my goto temporary callback.
-                          onPressed: () => print('PRESSED'),
+                          onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              // builder methods always take context!
+                              builder: (context) {
+                                return About();
+                              },
+                            ),
+                          ), //print('PRESSED'),
                           color: Colors.indigoAccent,
                           child: Text('Submit Pup'),
                         );
