@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import '../screens/about.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key, this.title}) : super(key: key);
+  Home({Key key, this.tabController, this.title, }) : super(key: key);
+ // Home({Key key, this.tabController}) : super(key: key);
 
+
+  final PageController tabController;
   final String title;
 
   @override
@@ -73,14 +76,24 @@ class HomeState extends State<Home> {
                         return RaisedButton(
                           // If onPressed is null, the button is disabled
                           // this is my goto temporary callback.
-                          onPressed: () => Navigator.of(context).push(
+                          onPressed: () =>   //widget.tabController.animateToPage(3, duration: const Duration(milliseconds: 700), curve: Curves.easeOut),
+                              Navigator.of(context).push(
                             MaterialPageRoute(
-                              // builder methods always take context!
-                              builder: (context) {
-                                return About();
+                              builder: (BuildContext context) {
+                                return About( tabController: widget.tabController);
                               },
-                            ),
-                          ), //print('PRESSED'),
+                            )
+                            ).then((value) {
+                              print('Callback executed ' + value.toString());
+
+                              if(value == true){
+                                widget.tabController.animateToPage(3, duration: const Duration(milliseconds: 700), curve: Curves.easeOut);
+                              }
+//                              setState(() {
+//
+//                              });
+                            }
+                          ),//widget.tabController.jumpToPage(1), //print('PRESSED'),
                           color: Colors.indigoAccent,
                           child: Text('Submit Pup'),
                         );

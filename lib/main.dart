@@ -10,41 +10,45 @@ import './tabs/contacts.dart' as _fourthTab;
 import './screens/about.dart' as _aboutPage;
 import './screens/support.dart' as _supportPage;
 
-void main() => runApp(
-//    BlocProvider(
-//  bloc: SupportBloc(),
-//  child:
-  new MaterialApp(
-  debugShowCheckedModeBanner: false,
-  title: 'Flutter Starter',
-  theme: new ThemeData(
-    primarySwatch: Colors.green,
-    scaffoldBackgroundColor: Colors.white,
-    primaryColor: Color.fromARGB(255, 40, 199, 143), backgroundColor: Colors.red
-  ),
-   home: new Tabs(),
-  onGenerateRoute: (RouteSettings settings) {
-    switch (settings.name) {
-      case '/about': return new FromRightToLeft(
-        builder: (_) => new _aboutPage.About(),
-        settings: settings,
-      );
-      case '/support': return new FromRightToLeft(
-        builder: (_) =>
-          BlocProvider(
-            bloc: SupportBloc(),
-            child: new _supportPage.Support()
-          ),
-        settings: settings,
-      );
-    }
-  },
-  )
-  // routes: <String, WidgetBuilder> {
-  //   '/about': (BuildContext context) => new _aboutPage.About(),
-  // }
-//)
-);
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+
+  static final _myTabbedPageKey = new GlobalKey<TabsState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Starter',
+      theme: new ThemeData(
+          primarySwatch: Colors.green,
+          scaffoldBackgroundColor: Colors.white,
+          primaryColor: Color.fromARGB(255, 40, 199, 143), backgroundColor: Colors.red
+      ),
+      home: new Tabs(
+        key: _myTabbedPageKey,
+      ),
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case '/about': return new FromRightToLeft(
+            builder: (_) => new _aboutPage.About(),
+            settings: settings,
+          );
+          case '/support': return new FromRightToLeft(
+            builder: (_) =>
+                BlocProvider(
+                    bloc: SupportBloc(),
+                    child: new _supportPage.Support()
+                ),
+            settings: settings,
+          );
+        }
+      },
+    );
+  }
+}
+
 
 class FromRightToLeft<T> extends MaterialPageRoute<T> {
   FromRightToLeft({ WidgetBuilder builder, RouteSettings settings })
@@ -88,6 +92,8 @@ class FromRightToLeft<T> extends MaterialPageRoute<T> {
 }
 
 class Tabs extends StatefulWidget {
+  const Tabs({Key key}) : super(key: key);
+
   @override
   TabsState createState() => new TabsState();
 }
@@ -142,7 +148,7 @@ class TabsState extends State<Tabs> {
             children: <Widget>[
               new _firstTab.Dashboard(),
               new _secondTab.Settings(),
-              new _thirdTab.Home(),
+              new _thirdTab.Home(tabController: _tabController),
               new _fourthTab.Contacts()
             ],
           ),
