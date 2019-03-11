@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/lesson.dart';
 import '../model/contact.dart';
+import '../widgets/profile_tile.dart';
 /// Note: continue with https://github.com/shubie/Beautiful-List-UI-and-detail-page/blob/master/lib/main.dart
 
 class Contacts extends StatefulWidget {
@@ -18,6 +19,7 @@ class Contacts extends StatefulWidget {
 class ContactsState extends State<Contacts> {
   final numItems = 20;
   final _biggerFont = const TextStyle(fontSize: 18.0);
+  var deviceSize;
 
   List contacts;
   List lessons;
@@ -25,105 +27,34 @@ class ContactsState extends State<Contacts> {
   @override
   void initState() {
     lessons = getLessons();
+    contacts = getContacts();
     super.initState();
   }
 
-//  @override
-//  Widget build(BuildContext context) => new Container(
-//      child: new Column(
-//        crossAxisAlignment: CrossAxisAlignment.center,
-//        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//        children: <Widget>[
-//          new Icon(
-//              Icons.home,
-//              size: 150.0,
-//              color: Colors.black12
-//          ),
-//          new Text('Home tab content')
-//        ],
-//      )
-//  );
-
-//  List getContacts(){
-//    return [
-//      Contact(
-//        firstName: "Josef",
-//        lastName: "Solon",
-//        age: 35,
-//      ),
-//      Contact(
-//        firstName: "Daisy",
-//        lastName: "Dano",
-//        age: 35,
-//      ),
-//    ];
-//  }
-
   @override
   Widget build(BuildContext context) {
-
-    ListTile makeListTile(Lesson lesson) =>
+    deviceSize = MediaQuery.of(context).size;
+    ListTile makeListTile(Contact contact) =>
         ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          contentPadding: const EdgeInsets.only(top: 10.0, bottom: 5.0),//EdgeInsets.symmetric(top: horizontal: 4.0, vertical: 4.0),
           leading: Container(
-            padding: EdgeInsets.only(right: 12.0),
+            padding: EdgeInsets.only(right: 5.0),
             decoration: new BoxDecoration(
                 border: new Border(
                     right: new BorderSide(width: 1.0, color: Colors.white24))),
             child: CircleAvatar(
-              backgroundColor: Colors.brown.shade800,
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.grey,
               radius: 30.0,
               child: Text('AH'),
             ),
           ),
           title: Text(
-            lesson.title,
-            //style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            contact.firstName + " " + contact.lastName,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            textAlign: TextAlign.start,
           ),
-          // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-          subtitle:
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text('Deliver features faster', textAlign: TextAlign.center),
-                  ),
-                  Expanded(
-                    child: Text('Craft beautiful UIs', textAlign: TextAlign.center),
-                  ),
-//                  Expanded(
-//                    child: FittedBox(
-//                      fit: BoxFit.contain, // otherwise the logo will be tiny
-//                      child: const FlutterLogo(),
-//                    ),
-//                  ),
-                ],
-              ),
-              Text('Through the night, we have one shot to live another day'),
-              Text('We cannot let a stray gunshot give us away'),
-            ],
-          ),
-
-//          Row(
-//            children: <Widget>[
-//              Expanded(
-//                child: Text('Deliver features faster', textAlign: TextAlign.center),
-//              ),
-//              Expanded(
-//                child: Text('Craft beautiful UIs', textAlign: TextAlign.center),
-//              ),
-//              Expanded(
-//                child: FittedBox(
-//                  fit: BoxFit.contain, // otherwise the logo will be tiny
-//                  child: const FlutterLogo(),
-//                ),
-//              ),
-//            ],
-//          ),
+          subtitle: followColumn(deviceSize),
         );
 
     final makeBody = Container(
@@ -132,18 +63,108 @@ class ContactsState extends State<Contacts> {
         separatorBuilder: (BuildContext context, int index) => new Divider(),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        itemCount: lessons.length,
+        itemCount: contacts.length,
         itemBuilder: (BuildContext context, int index) {
-          return makeListTile(lessons[index]);
+          return makeListTile(contacts[index]);
         },
       ),
     );
 
     return Scaffold(
       //backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-      body: makeBody,
+      body: Container(
+          margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+          //padding: const EdgeInsets.only(top: 5.0),
+          child: makeBody
+      ),
     );
   }
+
+
+  Widget followColumn(Size deviceSize) => Container(
+    //margin: const EdgeInsets.only(left: 0.0, right: 20.0),
+    height: deviceSize.height * 0.05,
+    child: Row(
+     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//      crossAxisAlignment: CrossAxisAlignment.stretch,
+//      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        ProfileTile(
+          title: "1.5K",
+          subtitle: "Posts",
+        ),
+        ProfileTile(
+          title: "2.5K",
+          subtitle: "Followers",
+        ),
+        ProfileTile(
+          title: "10K",
+          subtitle: "Comments",
+        ),
+//        ProfileTile(
+//          title: "1.2K",
+//          subtitle: "Following",
+//        )
+      ],
+    ),
+  );
+
+
+  List getContacts() {
+    return [
+      Contact(
+        firstName: "Josef",
+        lastName: "Solon",
+        age: 35
+      ),
+      Contact(
+        firstName: "Josef",
+        lastName: "Solon",
+        age: 35
+      ),
+      Contact(
+        firstName: "Josef",
+        lastName: "Solon",
+        age: 35
+      ),
+      Contact(
+        firstName: "Josef",
+        lastName: "Solon",
+        age: 35
+      ),
+      Contact(
+        firstName: "Josef",
+        lastName: "Solon",
+        age: 35
+      ),
+      Contact(
+          firstName: "Josef",
+          lastName: "Solon",
+          age: 35
+      ),
+      Contact(
+          firstName: "Josef",
+          lastName: "Solon",
+          age: 35
+      ),
+      Contact(
+          firstName: "Josef",
+          lastName: "Solon",
+          age: 35
+      ),
+      Contact(
+          firstName: "Josef",
+          lastName: "Solon",
+          age: 35
+      ),
+      Contact(
+          firstName: "Josef",
+          lastName: "Solon",
+          age: 35
+      )
+    ];
+  }
+
 
   List getLessons() {
     return [

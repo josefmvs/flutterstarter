@@ -47,8 +47,9 @@ class MyApp extends StatelessWidget {
       },
     );
   }
-}
 
+
+}
 
 class FromRightToLeft<T> extends MaterialPageRoute<T> {
   FromRightToLeft({ WidgetBuilder builder, RouteSettings settings })
@@ -152,12 +153,23 @@ class TabsState extends State<Tabs> {
               new _fourthTab.Contacts()
             ],
           ),
-          _buildFab(),
+//          _buildFab(),
         ],
       ),
 
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => setState(() {
+          //_count++;
+        }),
+        elevation: 0.0,
+        tooltip: 'Increment Counter',
+        child: Icon(Icons.add),
+        backgroundColor: Colors.yellow[600],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
 
     //Tabs
+
     bottomNavigationBar: Theme.of(context).platform == TargetPlatform.iOS ?
       new CupertinoTabBar(
         activeColor: Colors.blueGrey,
@@ -169,32 +181,54 @@ class TabsState extends State<Tabs> {
             icon:   new Icon(TabItem.icon, size: 15),
           );
         }).toList(),
-      ):
-    new Theme(
-      data: Theme.of(context).copyWith(
-        // sets the background color of the `BottomNavigationBar`
-          canvasColor: Color.fromARGB(255, 40, 199, 143),
-          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-          primaryColor: Colors.yellow[600],// Color.fromARGB(200, 254, 183, 0),
-          textTheme: Theme
-              .of(context)
-              .textTheme
-              .copyWith(caption: new TextStyle(color: Colors.white))), // sets the inactive color of the `BottomNavigationBar`
-      child: new BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _tab,
-        onTap: onTap,
-        items: TabItems.map((TabItem) {
-          return new BottomNavigationBarItem(
-            title: new Text(TabItem.title),
-            icon:   new Icon(TabItem.icon, size: 20),
-          );
-        }).toList(),
+      ): new BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      color: Color.fromARGB(255, 40, 199, 143),
+      child: new Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          IconButton(padding: EdgeInsets.only(left: 20.0), highlightColor: Colors.black, color: Colors.white, icon: Icon(Icons.dashboard), onPressed: () { onTap(0); },),
+          IconButton(highlightColor: Colors.black,color: Colors.white,icon: Icon(Icons.timeline), onPressed: () { onTap(1); },),
+          IconButton(highlightColor: Colors.black,color: Colors.white,icon: Icon(Icons.wb_incandescent), onPressed: () { onTap(2); },),
+          IconButton(highlightColor: Colors.black, color: Colors.white, icon: Icon(Icons.group), onPressed: () { onTap(3); },),
+          SizedBox(width: 50.0),
+        ],
       ),
     ),
 
+//    const TabItem(title: 'Dashboard', icon: Icons.dashboard),
+//    const TabItem(title: 'Activities', icon: Icons.timeline),
+//    const TabItem(title: 'Insights', icon: Icons.wb_incandescent),
+//    const TabItem(title: 'Contacts', icon: Icons.group)
+
+//      new Theme(
+//        data: Theme.of(context).copyWith(
+//          // sets the background color of the `BottomNavigationBar`
+//            canvasColor: Color.fromARGB(255, 40, 199, 143),
+//            // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+//            primaryColor: Colors.yellow[600],// Color.fromARGB(200, 254, 183, 0),
+//            textTheme: Theme
+//                .of(context)
+//                .textTheme
+//                .copyWith(caption: new TextStyle(color: Colors.white))), // sets the inactive color of the `BottomNavigationBar`
+//        child: new BottomNavigationBar(
+//          type: BottomNavigationBarType.fixed,
+//          currentIndex: _tab,
+//          onTap: onTap,
+//          items: TabItems.map((TabItem) {
+//            return new BottomNavigationBarItem(
+//              title: new Text(TabItem.title),
+//              icon:   new Icon(TabItem.icon, size: 20),
+//            );
+//          }).toList(),
+//        ),
+//      ),
+
    // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     //Drawer
+
+
     drawer: new Drawer(
       child: new ListView(
         children: <Widget>[
