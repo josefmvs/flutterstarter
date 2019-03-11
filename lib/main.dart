@@ -9,6 +9,7 @@ import './tabs/home.dart' as _thirdTab;
 import './tabs/contacts.dart' as _fourthTab;
 import './screens/about.dart' as _aboutPage;
 import './screens/support.dart' as _supportPage;
+import './widgets/menu_modal.dart';
 
 void main() => runApp(new MyApp());
 
@@ -102,7 +103,8 @@ class Tabs extends StatefulWidget {
 class TabsState extends State<Tabs> {
   final double _imageHeight = 256.0;
   PageController _tabController;
-
+  MenuModal menuModal = new MenuModal();
+  
   var _title_app = null;
   int _tab = 0;
 
@@ -158,9 +160,7 @@ class TabsState extends State<Tabs> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(() {
-          //_count++;
-        }),
+        onPressed: () => menuModal.mainBottomSheet(context),
         elevation: 0.0,
         tooltip: 'Increment Counter',
         child: Icon(Icons.add),
