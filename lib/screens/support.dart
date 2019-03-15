@@ -6,13 +6,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Support extends StatefulWidget {
   @override
   SupportState createState() {
-    return SupportState();
+    return new SupportState();
   }
 }
 
 class SupportState extends State<Support> {
   String name;
   final _formKey = GlobalKey<FormState>();
+
+//  @override
+//  void initState() {
+//    super.initState();
+//  }
+
 
   Card buildItem(DocumentSnapshot doc, SupportBloc bloc) {
     return Card(

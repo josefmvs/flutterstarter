@@ -7,16 +7,19 @@ import 'package:flutter_starter/repository/db.dart';
 
 class SupportBloc implements BlocBase{
   SupportBloc(){
-    db.init().listen((data) => _inFirestore.add(data));
+    // try adding in firestore and add
+    db.init().listen((data) => _inFirestore.add(data)
+      //print("update")
+    );
   }
 
   String id;
   final _idController = StreamController<String>();
-  Stream<String> get outId => _idController.stream;
+  Stream<String> get outId => _idController.stream.asBroadcastStream();
   Sink<String> get _inId => _idController.sink;
 
   final _firestoreController = StreamController<QuerySnapshot>();
-  Stream<QuerySnapshot> get outFirestore => _firestoreController.stream;
+  Stream<QuerySnapshot> get outFirestore => _firestoreController.stream.asBroadcastStream();
   Sink<QuerySnapshot> get _inFirestore => _firestoreController.sink;
 
   void readData() async {
