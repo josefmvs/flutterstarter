@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:redux/redux.dart';                              // new
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_starter/bloc_provider.dart';
+import 'package:flutter_starter/model/app_state.dart';
+import 'package:flutter_starter/reducers/app_reducer.dart';
 import 'package:flutter_starter/screens/support_bloc.dart';
 import 'package:flutter_starter/widgets/animated_fab.dart';
 import './tabs/dashboard.dart' as _firstTab;
@@ -11,15 +15,29 @@ import './screens/about.dart' as _aboutPage;
 import './screens/support.dart' as _supportPage;
 import './widgets/menu_modal.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  // Wrap your App in your new storage container
+  runApp(new MyApp()
+  );
+}
 
 class MyApp extends StatelessWidget {
 
   static final _myTabbedPageKey = new GlobalKey<TabsState>();
 
+  String title = 'MeSuite';
+
+  final store = new Store<AppState>(                            // new
+    appReducer,                                                 // new
+    initialState: new AppState(),                               // new
+    middleware: [],                                             // new
+  );
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return new StoreProvider(                                   // new
+      store: store,                                             // new
+      child: new MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Starter',
       theme: new ThemeData(
@@ -46,7 +64,10 @@ class MyApp extends StatelessWidget {
           );
         }
       },
+    )
     );
+
+
   }
 
 

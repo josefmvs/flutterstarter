@@ -7,6 +7,9 @@ dependencies:
   cloud_firestore: ^0.9.5+2
   english_words: ^3.1.0   # add this line
   cupertino_icons: ^0.1.2
+  redux:
+  flutter_redux:
+  redux_logging:
 
 dev_dependencies:
   flutter_test:
