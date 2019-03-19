@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:redux/redux.dart';                              // new
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_starter/bloc_provider.dart';
-import 'package:flutter_starter/model/app_state.dart';
-import 'package:flutter_starter/reducers/app_reducer.dart';
 import 'package:flutter_starter/screens/support_bloc.dart';
 import 'package:flutter_starter/widgets/animated_fab.dart';
 import './tabs/dashboard.dart' as _firstTab;
@@ -14,6 +10,10 @@ import './tabs/contacts.dart' as _fourthTab;
 import './screens/about.dart' as _aboutPage;
 import './screens/support.dart' as _supportPage;
 import './widgets/menu_modal.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter_starter/scope_model/user.dart';
+import 'package:flutter_starter/scope_model/counter.dart';
+import 'dart:async';
 
 void main() {
   // Wrap your App in your new storage container
@@ -22,22 +22,26 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   static final _myTabbedPageKey = new GlobalKey<TabsState>();
-
   String title = 'MeSuite';
-
-  final store = new Store<AppState>(                            // new
-    appReducer,                                                 // new
-    initialState: new AppState(),                               // new
-    middleware: [],                                             // new
-  );
+  var user = User();
+  var counter = Counter();
 
   @override
   Widget build(BuildContext context) {
-    return new StoreProvider(                                   // new
-      store: store,                                             // new
-      child: new MaterialApp(
+
+//    Timer.periodic(
+//      const Duration(seconds: 5),
+//          (timer) => user.increment(),
+//    );
+
+    Timer.periodic(
+      const Duration(seconds: 3),
+          (timer) => counter.counterIncrement(),
+    );
+
+
+    return new MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Starter',
       theme: new ThemeData(
@@ -51,7 +55,13 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case '/about': return new FromRightToLeft(
-            builder: (_) => new _aboutPage.About(),
+            builder: (_) => ScopedModel<Counter>(
+              model: counter,
+              child: ScopedModel<User>(
+                model: user,
+                child: new _aboutPage.About(),
+                ),
+            ),
             settings: settings,
           );
           case '/support': return new FromRightToLeft(
@@ -64,13 +74,16 @@ class MyApp extends StatelessWidget {
           );
         }
       },
-    )
+//      initialRoute: '/',
+//      routes: {
+//        // When we navigate to the "/" route, build the FirstScreen Widget
+//        '/': (context) => FirstScreen(),
+//        // When we navigate to the "/second" route, build the SecondScreen Widget
+//        '/second': (context) => SecondScreen(),
+//      },
     );
 
-
   }
-
-
 }
 
 class FromRightToLeft<T> extends MaterialPageRoute<T> {
@@ -179,7 +192,6 @@ class TabsState extends State<Tabs> {
 //          _buildFab(),
         ],
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () => menuModal.mainBottomSheet(context),
         elevation: 0.0,
@@ -187,10 +199,8 @@ class TabsState extends State<Tabs> {
         child: Icon(Icons.add),
         backgroundColor: Colors.yellow[600],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     //Tabs
-
     bottomNavigationBar: Theme.of(context).platform == TargetPlatform.iOS ?
       new CupertinoTabBar(
         activeColor: Colors.blueGrey,
@@ -211,9 +221,10 @@ class TabsState extends State<Tabs> {
         children: <Widget>[
           IconButton(padding: EdgeInsets.only(left: 20.0), highlightColor: Colors.black, color: Colors.white, icon: Icon(Icons.dashboard), onPressed: () { onTap(0); },),
           IconButton(highlightColor: Colors.black,color: Colors.white,icon: Icon(Icons.timeline), onPressed: () { onTap(1); },),
-          IconButton(highlightColor: Colors.black,color: Colors.white,icon: Icon(Icons.wb_incandescent), onPressed: () { onTap(2); },),
-          IconButton(highlightColor: Colors.black, color: Colors.white, icon: Icon(Icons.group), onPressed: () { onTap(3); },),
           SizedBox(width: 50.0),
+          IconButton(highlightColor: Colors.black,color: Colors.white,icon: Icon(Icons.wb_incandescent), onPressed: () { onTap(2); },),
+          IconButton(padding: EdgeInsets.only(right: 20.0), highlightColor: Colors.black, color: Colors.white, icon: Icon(Icons.group), onPressed: () { onTap(3); },),
+
         ],
       ),
     ),
@@ -248,8 +259,6 @@ class TabsState extends State<Tabs> {
 
    // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     //Drawer
-
-
     drawer: new Drawer(
       child: new ListView(
         children: <Widget>[
@@ -335,7 +344,6 @@ class TabItem {
 }
 
 const List<TabItem> TabItems = const <TabItem>[
-
   const TabItem(title: 'Dashboard', icon: Icons.dashboard),
   const TabItem(title: 'Activities', icon: Icons.timeline),
   const TabItem(title: 'Insights', icon: Icons.wb_incandescent),
