@@ -77,15 +77,7 @@ class _AboutState extends State<About> {
                         ],
                         ),
                 ),
-//                floatingActionButton: FloatingActionButton(
-//                // ScopedModel.of is another way to access the model object held
-//                // by an ancestor ScopedModel. By default, it just returns
-//                // the current model and doesn't automatically trigger rebuilds.
-//                // Since this button always looks the same, though, no rebuilds
-//                // are needed.
-//                onPressed: () => ScopedModel.of<User>(context).increment(),
-//                tooltip: 'Increment',
-//                child: Icon(Icons.add),
+
 //                ),
                 );
 

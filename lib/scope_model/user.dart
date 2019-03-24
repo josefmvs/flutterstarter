@@ -1,7 +1,8 @@
 import 'package:scoped_model/scoped_model.dart';
 
 class User extends Model {
-  int value = 0;
+  int value = 10;
+  String currentPage = "";
 
   void increment() {
     value += 1;
@@ -9,7 +10,12 @@ class User extends Model {
   }
 
   void setValue(int val){
-    value = val;
+    value = value + val;
+  }
+
+  void setPage(String page){
+    currentPage = page;
+    print("set page :" + currentPage);
   }
 
 }

@@ -314,24 +314,36 @@ class TabsState extends State<Tabs> {
     setState((){
       this._tab = tab;
     });
-
+    var user = User();
     switch (tab) {
       case 0:
-        this._title_app = TabItems[0].title;
-      break;
-
+        {
+          //ScopedModel.of<User>(context).setPage("Dashboard");
+          user.setPage("Dashboard");
+          this._title_app = TabItems[0].title;
+          break;
+        }
       case 1:
-        this._title_app = TabItems[1].title;
-      break;
-
+        {
+          //ScopedModel.of<User>(context).setPage("Activities");
+          user.setPage("Activities");
+          this._title_app = TabItems[1].title;
+          break;
+        }
       case 2:
-        this._title_app = TabItems[2].title;
-      break;
-
+        {
+          //ScopedModel.of<User>(context).setPage("Insights");
+          user.setPage("Insights");
+          this._title_app = TabItems[2].title;
+          break;
+        }
       case 3:
-        this._title_app = TabItems[3].title;
-        break;
-
+        {
+          //ScopedModel.of<User>(context).setPage("Contacts");
+          user.setPage("Contacts");
+          this._title_app = TabItems[3].title;
+          break;
+        }
 
     }
   }
