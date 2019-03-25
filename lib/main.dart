@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
           (timer) => counter.counterIncrement(),
     );
 
-
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Starter',
@@ -140,9 +139,9 @@ class TabsState extends State<Tabs> {
   final double _imageHeight = 256.0;
   PageController _tabController;
   var user = User();
-
   var _title_app = null;
   int _tab = 0;
+  var defaultPage = "Dashboard";
 
   @override
   void initState() {
@@ -168,11 +167,13 @@ class TabsState extends State<Tabs> {
   @override
   Widget build (BuildContext context) {
 
+    var page = ScopedModel.of<User>(context).currentPage;  //ScopedModel.of<User>(context).currentPage ? "" : this.defaultPage;
 
-    var page = ScopedModel.of<User>(context).currentPage;
+    if(page == ""){
+      page = defaultPage;
+    }
 
     MenuModal menuModal = new MenuModal(page: page);
-
 
     return new Scaffold(
       //App Bar

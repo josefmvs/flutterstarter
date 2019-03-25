@@ -19,7 +19,7 @@ class LabelBelowIcon extends StatelessWidget {
         this.iconColor = Colors.white,
         this.circleColor,
         this.isCircleEnabled = true,
-        this.betweenHeight = 5.0});
+        this.betweenHeight = 3.0});
 
   void calltheCallaback() { callback(); }
 
@@ -31,28 +31,28 @@ class LabelBelowIcon extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-//          isCircleEnabled
-//              ? CircleAvatar(
-//            backgroundColor: circleColor,
-//            radius: 25.0,
-//            child: Icon(
-//              icon,
-//              size: 15.0,
-//              color: iconColor,
-//            ),
-//          )
-//              : Icon(
-//            icon,
-//            size: 15.0,
-//            color: iconColor,
-//          ),
-//          SizedBox(
-//            height: betweenHeight,
-//          ),
+          isCircleEnabled
+              ? CircleAvatar(
+            backgroundColor: circleColor,
+            radius: 20.0,
+            child: Icon(
+              icon,
+              size: 15.0,
+              color: iconColor,
+            ),
+          )
+              : Icon(
+            icon,
+            size: 15.0,
+            color: iconColor,
+          ),
+          SizedBox(
+            height: betweenHeight,
+          ),
           Text(
             label,
             textAlign: TextAlign.center,
-            //style: TextStyle(fontFamily: UIData.ralewayFont),
+            style: TextStyle(fontSize: 12.0),
           )
         ],
       ),

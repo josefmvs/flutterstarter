@@ -27,20 +27,20 @@ class MenuModal {
                   child:   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
-                          child: Text(
-                              page
-                            ),
+//                          child: Text(
+//                              page
+//                            ),
 //                        child:  ScopedModelDescendant<User>(
 //                            builder: (context, child, user) => Text(
 //                              '${user.currentPage}',
 //                            ),
 //                          )
 
-//                        Row(
-//                          // This next line does the trick.
-//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                            children: ListMyWidgets(context)
-//                        )
+                        child: Row(
+                          // This next line does the trick.
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: ListMyWidgets(context, page)
+                        )
 
 
                     ),
@@ -58,21 +58,30 @@ class MenuModal {
 //children: ListMyWidgets()),
 //
 
-List<LabelBelowIcon> ListMyWidgets(context) {
-
-//  final page =
-//      ScopedModel.of<User>(context, rebuildOnChange: true).currentPage;
+List<LabelBelowIcon> ListMyWidgets(context, page) {
 
   List<LabelBelowIcon> list = new List();
-  for (var i = 0; i < 4; i++){
-    list.add(
+  List<BottomMenuItem> bottomMenuItems = BottomMenuItems.where((i) => i.page == page).toList();
+
+  bottomMenuItems.forEach((item) =>
+      list.add(
        new LabelBelowIcon(
-        icon: Icons.access_time,
-        label: "test",
+        icon: item.icon,
+        label: item.link,
         circleColor: Colors.blue,
         )
-      );
-  }
+      )
+  );
+
+//  for (var i = 0; i < 4; i++){
+//    list.add(
+//       new LabelBelowIcon(
+//        icon: Icons.access_time,
+//        label: page,
+//        circleColor: Colors.blue,
+//        )
+//      );
+//  }
   return list;
 }
 
@@ -87,23 +96,22 @@ class BottomMenuItem{
 }
 
 const List<BottomMenuItem> BottomMenuItems = const <BottomMenuItem> [
-
-  const BottomMenuItem(link: "link 1", icon: Icons.dashboard, page: "dashboard"),
-  const BottomMenuItem(link: "link 2", icon: Icons.dashboard, page: "dashboard"),
-  const BottomMenuItem(link: "link 3", icon: Icons.dashboard, page: "dashboard"),
-  const BottomMenuItem(link: "link 4", icon: Icons.dashboard, page: "dashboard"),
-  const BottomMenuItem(link: "link 1", icon: Icons.timeline, page: "activities"),
-  const BottomMenuItem(link: "link 2", icon: Icons.timeline, page: "activities"),
-  const BottomMenuItem(link: "link 3", icon: Icons.timeline, page: "activities"),
-  const BottomMenuItem(link: "link 4", icon: Icons.timeline, page: "activities"),
-  const BottomMenuItem(link: "link 1", icon: Icons.wb_incandescent, page: "insights"),
-  const BottomMenuItem(link: "link 2", icon: Icons.wb_incandescent, page: "insights"),
-  const BottomMenuItem(link: "link 3", icon: Icons.wb_incandescent, page: "insights"),
-  const BottomMenuItem(link: "link 4", icon: Icons.wb_incandescent, page: "insights"),
-  const BottomMenuItem(link: "link 1", icon: Icons.group, page: "contacts"),
-  const BottomMenuItem(link: "link 2", icon: Icons.group, page: "contacts"),
-  const BottomMenuItem(link: "link 3", icon: Icons.group, page: "contacts"),
-  const BottomMenuItem(link: "link 4", icon: Icons.group, page: "contacts"),
+  const BottomMenuItem(link: "dlink 1", icon: Icons.dashboard, page: "Dashboard"),
+  const BottomMenuItem(link: "dlink 2", icon: Icons.dashboard, page: "Dashboard"),
+  const BottomMenuItem(link: "dlink 3", icon: Icons.dashboard, page: "Dashboard"),
+  const BottomMenuItem(link: "dlink 4", icon: Icons.dashboard, page: "Dashboard"),
+  const BottomMenuItem(link: "alink 1", icon: Icons.timeline, page: "Activities"),
+  const BottomMenuItem(link: "alink 2", icon: Icons.timeline, page: "Activities"),
+  const BottomMenuItem(link: "alink 3", icon: Icons.timeline, page: "Activities"),
+  const BottomMenuItem(link: "alink 4", icon: Icons.timeline, page: "Activities"),
+  const BottomMenuItem(link: "ilink 1", icon: Icons.wb_incandescent, page: "Insights"),
+  const BottomMenuItem(link: "ilink 2", icon: Icons.wb_incandescent, page: "Insights"),
+  const BottomMenuItem(link: "ilink 3", icon: Icons.wb_incandescent, page: "Insights"),
+  const BottomMenuItem(link: "ilink 4", icon: Icons.wb_incandescent, page: "Insights"),
+  const BottomMenuItem(link: "clink 1", icon: Icons.group, page: "Contacts"),
+  const BottomMenuItem(link: "clink 2", icon: Icons.group, page: "Contacts"),
+  const BottomMenuItem(link: "clink 3", icon: Icons.group, page: "Contacts"),
+  const BottomMenuItem(link: "clink 4", icon: Icons.group, page: "Contacts"),
 ];
 
 
@@ -114,7 +122,6 @@ class MenuItem {
 }
 
 const List<MenuItem> TabItems = const <MenuItem>[
-
   const MenuItem(title: 'Dashboard', icon: Icons.dashboard),
   const MenuItem(title: 'Activities', icon: Icons.timeline),
   const MenuItem(title: 'Insights', icon: Icons.wb_incandescent),
