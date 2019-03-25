@@ -11,7 +11,7 @@ import './screens/about.dart' as _aboutPage;
 import './screens/support.dart' as _supportPage;
 import './widgets/menu_modal.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:flutter_starter/scope_model/user.dart';
+import './scope_model/user.dart';
 import 'package:flutter_starter/scope_model/counter.dart';
 import 'dart:async';
 
@@ -49,9 +49,11 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Color.fromARGB(255, 40, 199, 143), backgroundColor: Colors.red
       ),
-      home: new Tabs(
-        key: _myTabbedPageKey,
-      ),
+      home: ScopedModel<User>(
+          model: user,
+          child: new Tabs(
+            key: _myTabbedPageKey,
+      )),
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case '/about': return new FromRightToLeft(
@@ -137,8 +139,8 @@ class Tabs extends StatefulWidget {
 class TabsState extends State<Tabs> {
   final double _imageHeight = 256.0;
   PageController _tabController;
-  MenuModal menuModal = new MenuModal();
-  
+  var user = User();
+
   var _title_app = null;
   int _tab = 0;
 
@@ -164,70 +166,79 @@ class TabsState extends State<Tabs> {
   }
 
   @override
-  Widget build (BuildContext context) => new Scaffold(
-    //App Bar
-    appBar: new AppBar(
-      title: new Text(
-        _title_app, 
-        style: new TextStyle(
-          color: Colors.white,
-          fontSize: Theme.of(context).platform == TargetPlatform.iOS ? 17.0 : 20.0,
+  Widget build (BuildContext context) {
+
+
+    var page = ScopedModel.of<User>(context).currentPage;
+
+    MenuModal menuModal = new MenuModal(page: page);
+
+
+    return new Scaffold(
+      //App Bar
+        appBar: new AppBar(
+          title: new Text(
+            _title_app,
+            style: new TextStyle(
+              color: Colors.white,
+              fontSize: Theme.of(context).platform == TargetPlatform.iOS ? 17.0 : 20.0,
+            ),
+          ),
+          elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
+          iconTheme: new IconThemeData(color: Colors.white),
         ),
-      ),
-      elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
-      iconTheme: new IconThemeData(color: Colors.white),
-    ),
-      body: new Stack(
-        children: <Widget>[
-          new PageView(
-            controller: _tabController,
-            onPageChanged: onTabChanged,
+        body: new Stack(
+          children: <Widget>[
+            new PageView(
+              controller: _tabController,
+              onPageChanged: onTabChanged,
+              children: <Widget>[
+                new _firstTab.Dashboard(),
+                new _secondTab.Settings(),
+                new _thirdTab.Home(tabController: _tabController),
+                new _fourthTab.Contacts()
+              ],
+            ),
+//          _buildFab(),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => menuModal.mainBottomSheet(context),
+          elevation: 0.0,
+          tooltip: 'Increment Counter',
+          child: Icon(Icons.add),
+          backgroundColor: Colors.yellow[600],
+
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        //Tabs
+        bottomNavigationBar: Theme.of(context).platform == TargetPlatform.iOS ?
+        new CupertinoTabBar(
+          activeColor: Colors.blueGrey,
+          currentIndex: _tab,
+          onTap: onTap,
+          items: TabItems.map((TabItem) {
+            return new BottomNavigationBarItem(
+              title: new Text(TabItem.title),
+              icon:   new Icon(TabItem.icon, size: 15),
+            );
+          }).toList(),
+        ): new BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          color: Color.fromARGB(255, 40, 199, 143),
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new _firstTab.Dashboard(),
-              new _secondTab.Settings(),
-              new _thirdTab.Home(tabController: _tabController),
-              new _fourthTab.Contacts()
+              IconButton(padding: EdgeInsets.only(left: 20.0), highlightColor: Colors.black, color: Colors.white, icon: Icon(Icons.dashboard), onPressed: () { onTap(0); },),
+              IconButton(highlightColor: Colors.black,color: Colors.white,icon: Icon(Icons.timeline), onPressed: () { onTap(1); },),
+              SizedBox(width: 50.0),
+              IconButton(highlightColor: Colors.black,color: Colors.white,icon: Icon(Icons.wb_incandescent), onPressed: () { onTap(2); },),
+              IconButton(padding: EdgeInsets.only(right: 20.0), highlightColor: Colors.black, color: Colors.white, icon: Icon(Icons.group), onPressed: () { onTap(3); },),
+
             ],
           ),
-//          _buildFab(),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => menuModal.mainBottomSheet(context),
-        elevation: 0.0,
-        tooltip: 'Increment Counter',
-        child: Icon(Icons.add),
-        backgroundColor: Colors.yellow[600],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    //Tabs
-    bottomNavigationBar: Theme.of(context).platform == TargetPlatform.iOS ?
-      new CupertinoTabBar(
-        activeColor: Colors.blueGrey,
-        currentIndex: _tab,
-        onTap: onTap,
-        items: TabItems.map((TabItem) {
-          return new BottomNavigationBarItem(
-            title: new Text(TabItem.title),
-            icon:   new Icon(TabItem.icon, size: 15),
-          );
-        }).toList(),
-      ): new BottomAppBar(
-      shape: CircularNotchedRectangle(),
-      color: Color.fromARGB(255, 40, 199, 143),
-      child: new Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          IconButton(padding: EdgeInsets.only(left: 20.0), highlightColor: Colors.black, color: Colors.white, icon: Icon(Icons.dashboard), onPressed: () { onTap(0); },),
-          IconButton(highlightColor: Colors.black,color: Colors.white,icon: Icon(Icons.timeline), onPressed: () { onTap(1); },),
-          SizedBox(width: 50.0),
-          IconButton(highlightColor: Colors.black,color: Colors.white,icon: Icon(Icons.wb_incandescent), onPressed: () { onTap(2); },),
-          IconButton(padding: EdgeInsets.only(right: 20.0), highlightColor: Colors.black, color: Colors.white, icon: Icon(Icons.group), onPressed: () { onTap(3); },),
-
-        ],
-      ),
-    ),
+        ),
 
 //    const TabItem(title: 'Dashboard', icon: Icons.dashboard),
 //    const TabItem(title: 'Activities', icon: Icons.timeline),
@@ -257,54 +268,55 @@ class TabsState extends State<Tabs> {
 //        ),
 //      ),
 
-   // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    //Drawer
-    drawer: new Drawer(
-      child: new ListView(
-        children: <Widget>[
-          new Container(
-            height: 120.0,
-            child: new DrawerHeader(
-              padding: new EdgeInsets.all(0.0),
-              decoration: new BoxDecoration(
-                color: new Color(0xFFECEFF1),
-              ),
-              child: new Center(
-                child: new FlutterLogo(
-                  colors: Colors.blueGrey,
-                  size: 54.0,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        //Drawer
+        drawer: new Drawer(
+            child: new ListView(
+              children: <Widget>[
+                new Container(
+                  height: 120.0,
+                  child: new DrawerHeader(
+                    padding: new EdgeInsets.all(0.0),
+                    decoration: new BoxDecoration(
+                      color: new Color(0xFFECEFF1),
+                    ),
+                    child: new Center(
+                      child: new FlutterLogo(
+                        colors: Colors.blueGrey,
+                        size: 54.0,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          new ListTile(
-            leading: new Icon(Icons.chat),
-            title: new Text('Support'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).pushNamed('/support');
-            }
-          ),
-          new ListTile(
-            leading: new Icon(Icons.info),
-            title: new Text('About'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).pushNamed('/about');
-            }
-          ),
-          new Divider(),
-          new ListTile(
-            leading: new Icon(Icons.exit_to_app),
-            title: new Text('Sign Out'),
-            onTap: () {
-              Navigator.pop(context);
-            }
-          ),
-        ],
-      )
-    )
-  );
+                new ListTile(
+                    leading: new Icon(Icons.chat),
+                    title: new Text('Support'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).pushNamed('/support');
+                    }
+                ),
+                new ListTile(
+                    leading: new Icon(Icons.info),
+                    title: new Text('About'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).pushNamed('/about');
+                    }
+                ),
+                new Divider(),
+                new ListTile(
+                    leading: new Icon(Icons.exit_to_app),
+                    title: new Text('Sign Out'),
+                    onTap: () {
+                      Navigator.pop(context);
+                    }
+                ),
+              ],
+            )
+        )
+    );
+  }
 
   void onTap(int tab){
     _tabController.jumpToPage(tab);
@@ -314,33 +326,35 @@ class TabsState extends State<Tabs> {
     setState((){
       this._tab = tab;
     });
-    var user = User();
+
+
+
+   // var user = User();
     switch (tab) {
       case 0:
         {
-          //ScopedModel.of<User>(context).setPage("Dashboard");
-          user.setPage("Dashboard");
+          ScopedModel.of<User>(context).setPage("Dashboard");
+
           this._title_app = TabItems[0].title;
           break;
         }
       case 1:
         {
-          //ScopedModel.of<User>(context).setPage("Activities");
-          user.setPage("Activities");
+          ScopedModel.of<User>(context).setPage("Activities");
+         // user.setPage("Activities");
           this._title_app = TabItems[1].title;
           break;
         }
       case 2:
         {
-          //ScopedModel.of<User>(context).setPage("Insights");
-          user.setPage("Insights");
+          ScopedModel.of<User>(context).setPage("Insights");
+
           this._title_app = TabItems[2].title;
           break;
         }
       case 3:
         {
-          //ScopedModel.of<User>(context).setPage("Contacts");
-          user.setPage("Contacts");
+         ScopedModel.of<User>(context).setPage("Contacts");
           this._title_app = TabItems[3].title;
           break;
         }

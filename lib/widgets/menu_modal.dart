@@ -6,50 +6,20 @@ import 'package:flutter_starter/scope_model/user.dart';
 
 class MenuModal {
 
-  var user = User();
+   var user = User();
+    var page = "";
+
+   MenuModal({this.page});
 
   mainBottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-//          return Container(
-//            height: 250.0,
-//            child:   Column(
-//                mainAxisAlignment: MainAxisAlignment.start,
-//                children: <Widget>[ IconMenuRow(
-//                  firstIcon: Icons.ac_unit,
-//                  firstLabel: "Friends",
-//                  firstIconCircleColor: Colors.blue,
-//                  secondIcon: Icons.map,
-//                  secondLabel: "Groups",
-//                  secondIconCircleColor: Colors.orange,
-//                  thirdIcon: Icons.movie,
-//                  thirdLabel: "Nearby",
-//                  thirdIconCircleColor: Colors.purple,
-//                  fourthIcon: Icons.refresh,
-//                  fourthLabel: "Moment",
-//                  fourthIconCircleColor: Colors.indigo,
-//                ),
-//                IconMenuRow(
-//                  firstIcon: Icons.ac_unit,
-//                  firstLabel: "Friends",
-//                  firstIconCircleColor: Colors.blue,
-//                  secondIcon: Icons.map,
-//                  secondLabel: "Groups",
-//                  secondIconCircleColor: Colors.orange,
-//                  thirdIcon: Icons.movie,
-//                  thirdLabel: "Nearby",
-//                  thirdIconCircleColor: Colors.purple,
-//                  fourthIcon: Icons.refresh,
-//                  fourthLabel: "Moment",
-//                  fourthIconCircleColor: Colors.indigo,
-//                ),
-//                ]
-//            )
-//
+//          ScopedModelDescendant<User>(
+//            builder: (context, child, user) => Text(
+//              '${user.currentPage}',
+//            ),
 //          );
-
-          //return Text("Josef Solon");
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: new Container(
@@ -57,34 +27,22 @@ class MenuModal {
                   child:   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
-                      child: ScopedModel<User>(
-                        model: user,
-                        child: Row(
-                          // This next line does the trick.
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: ListMyWidgets(user)
-                        )
-                      )
+                          child: Text(
+                              page
+                            ),
+//                        child:  ScopedModelDescendant<User>(
+//                            builder: (context, child, user) => Text(
+//                              '${user.currentPage}',
+//                            ),
+//                          )
 
-//                      child: Column(
-//                        mainAxisAlignment: MainAxisAlignment.start,
-//                        children: <Widget>[
-//                          IconMenuRow(
-//                            firstIcon: Icons.ac_unit,
-//                            firstLabel: "Friends",
-//                            firstIconCircleColor: Colors.blue,
-//                            secondIcon: Icons.map,
-//                            secondLabel: "Groups",
-//                            secondIconCircleColor: Colors.orange,
-//                            thirdIcon: Icons.movie,
-//                            thirdLabel: "Nearby",
-//                            thirdIconCircleColor: Colors.purple,
-//                            fourthIcon: Icons.refresh,
-//                            fourthLabel: "Moment",
-//                            fourthIconCircleColor: Colors.indigo,
-//                          ),
-//                        ],
-//                      ),
+//                        Row(
+//                          // This next line does the trick.
+//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                            children: ListMyWidgets(context)
+//                        )
+
+
                     ),
                   ),
                 ),
@@ -100,41 +58,22 @@ class MenuModal {
 //children: ListMyWidgets()),
 //
 
-List<LabelBelowIcon> ListMyWidgets(User user) {
-  List<LabelBelowIcon> list = new List();
+List<LabelBelowIcon> ListMyWidgets(context) {
 
+//  final page =
+//      ScopedModel.of<User>(context, rebuildOnChange: true).currentPage;
+
+  List<LabelBelowIcon> list = new List();
   for (var i = 0; i < 4; i++){
     list.add(
        new LabelBelowIcon(
         icon: Icons.access_time,
-        label: user.currentPage,
+        label: "test",
         circleColor: Colors.blue,
         )
       );
   }
   return list;
-//  list.add(
-//   new LabelBelowIcon(
-//    icon: Icons.access_time,
-//    label: "Test",
-//    circleColor: Colors.blue,
-//    )
-//  );
-//  list.add(
-//      new LabelBelowIcon(
-//      icon: Icons.access_time,
-//      label: "Test 2",
-//      circleColor: Colors.blue,
-//      )
-//    );
-//  list.add(
-//    new LabelBelowIcon(
-//    icon: Icons.access_time,
-//    label: "Test 3",
-//    circleColor: Colors.blue,
-//    )
-//  );
-//  return list;
 }
 
 

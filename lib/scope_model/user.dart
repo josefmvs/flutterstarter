@@ -4,6 +4,7 @@ class User extends Model {
   int value = 10;
   String currentPage = "";
 
+
   void increment() {
     value += 1;
     notifyListeners();
