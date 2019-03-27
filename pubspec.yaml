@@ -4,13 +4,14 @@ description: A new Flutter project.
 dependencies:
   flutter:
     sdk: flutter
-  cloud_firestore: ^0.9.5+2
-  english_words: ^3.1.0   # add this line
-  cupertino_icons: ^0.1.2
+  firebase_auth:
+  cloud_firestore:
+  english_words:   # add this line
+  cupertino_icons:
   redux:
   flutter_redux:
   redux_logging:
-  scoped_model: ^1.0.1
+  scoped_model:
 
 dev_dependencies:
   flutter_test:
